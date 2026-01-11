@@ -81,6 +81,13 @@
         rollover: "bg-purple-500/20 text-purple-400 border-purple-500/20",
         other: "bg-gray-500/20 text-gray-400 border-gray-500/20",
     };
+    function getTypeLabel(type: string) {
+        return typeLabels[type as keyof typeof typeLabels];
+    }
+
+    function getTypeColor(type: string) {
+        return typeColors[type as keyof typeof typeColors] || typeColors.other;
+    }
 </script>
 
 <div class="space-y-10 relative z-10 w-full">
@@ -142,9 +149,7 @@
                         class="w-full bg-[#0B0D11] border border-white/10 text-white rounded-xl px-5 py-3.5 flex justify-between items-center hover:bg-surface-darker hover:border-primary/50 transition-all shadow-lg outline-none focus:ring-2 focus:ring-primary/20"
                     >
                         <span class="font-medium truncate mr-2 text-sm"
-                            >{typeLabels[
-                                selectedType as keyof typeof typeLabels
-                            ]}</span
+                            >{getTypeLabel(selectedType)}</span
                         >
                         <i
                             class={`fas fa-chevron-down text-gray-600 transition-transform duration-300 ${isTypeOpen ? "rotate-180 text-primary" : ""}`}
@@ -283,11 +288,10 @@
                             <!-- Badges -->
                             <div class="flex flex-col items-end gap-2">
                                 <span
-                                    class={`text-[10px] font-black uppercase px-2 py-1 rounded border backdrop-blur-sm ${typeColors[bonus.type as keyof typeof typeColors] || typeColors.other}`}
+                                    class={`text-[10px] font-black uppercase px-2 py-1 rounded border backdrop-blur-sm ${getTypeColor(bonus.type)}`}
                                 >
-                                    {typeLabels[
-                                        bonus.type as keyof typeof typeLabels
-                                    ]?.split(" ")[0] || "BONO"}
+                                    {getTypeLabel(bonus.type)?.split(" ")[0] ||
+                                        "BONO"}
                                 </span>
                                 {#if bonus.country === "PE"}
                                     <span
